@@ -13,11 +13,11 @@ var alr = 0;
 var clean = 0;
 var third = 0;
 
-//var answers = ["BBB", "AAAAA", "AAAAA", "AAAAA", "AAAAA"];
-var answers = ["TOK", "YARA", "ŞARAP", "ARADA", "NİFAK"];
+var answers = ["AAAAA", "AAAAA", "AAAAA", "AAAAA", "AAAAA"];
+
 var dikQ = ["d1", "d2", "d3", "d4", "d5"];
 var yatQ = ["y1", "y2", "y3", "y4", "y5"];
-var bTiles = ["0-0", "0-1", "1-0"];
+var bTiles = [];
 
 window.onload = function () {
     intialize();
