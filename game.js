@@ -1,8 +1,15 @@
-﻿var height = 5; //number of guesses
+var height = 5; //number of guesses
 var width = 5; //length of the word
 
 var row = 0; //current guess (attempt #)
 var col = 0; //current letter for that attempt
+
+var timer;
+var ele;
+var sec = 1;
+var min = 0;
+
+var current = new Date();
 
 var gameOver = false;
 
@@ -19,10 +26,17 @@ var dikQ = ["d1", "d2", "d3", "d4", "d5"];
 var yatQ = ["y1", "y2", "y3", "y4", "y5"];
 var bTiles = [];
 
+localStorage.clear();
+
 window.onload = function () {
     intialize();
-}
+    ele = document.getElementById("timer");
 
+    if (current.toLocaleDateString() == localStorage.getItem("fDate")) {
+        ele.innerHTML = localStorage.getItem("fTime");
+        finished();
+    }
+}
 
 function intialize() {
 
@@ -102,6 +116,46 @@ function intialize() {
         processInput(e);
     })
 }
+
+(function () {
+    timer = setInterval(() => { timeCheck(); }, 1000)
+})()
+
+function timeCheck() {
+    if (sec < 60) {
+        if (sec < 10) {
+            if (min < 10) {
+                ele.innerHTML = "0" + min + ":0" + sec;
+                sec++;
+            }
+            else {
+                ele.innerHTML = min + ":0" + sec;
+                sec++;
+            }
+        }
+        else {
+            if (min < 10) {
+                ele.innerHTML = "0" + min + ":" + sec;
+                sec++;
+            }
+            else {
+                ele.innerHTML = min + ":" + sec;
+                sec++;
+            }
+        }
+    }
+    else if (sec == 60) {
+        sec = 1;
+        min++;
+        if (min < 10) {
+            ele.innerHTML = "0" + min + ":00";
+        }
+        else {
+            ele.innerHTML = min + ":00";
+        }
+    }
+}
+
 
 function changeRow() {
     if (gameOver) return;
@@ -325,107 +379,27 @@ function check() {
     }
 
     if (guessList[0] == answers[0] && guessList[1] == answers[1] && guessList[2] == answers[2] && guessList[3] == answers[3] && guessList[4] == answers[4]) {
-        gameOver = true;
         finished();
     }
 }
 
 function finished() {
+    gameOver = true;
+    clearInterval(timer);
+    document.getElementById("question").innerText = "Bulmaca Tamamlandı!";
+
     var s2 = document.getElementsByClassName("selected2");
-    s2[0].classList.add("selected");
-    s2[0].classList.remove("selected2");
+    if (s2.length != 0) {
+        s2[0].classList.add("selected");
+        s2[0].classList.remove("selected2");
+    }
 
     var emps = document.getElementsByClassName("tile");
     for (let i = 0; i < emps.length; i++) {
         emps[i].classList.add("selected");
         emps[i].classList.remove("empty");
     }
+
+    localStorage.setItem("fTime", ele.innerHTML);
+    localStorage.setItem("fDate", current.toLocaleDateString());
 }
-
-//function update() {
-//    let guess = "";
-//    document.getElementById("answer").innerText = "";
-
-//    //string up the guesses into the word
-//    for (let c = 0; c < width; c++) {
-//        let currTile = document.getElementById(row.toString() + '-' + c.toString());
-//        let letter = currTile.innerText;
-//        guess += letter;
-//    }
-
-//    guess = guess.toLowerCase(); //case sensitive
-//    console.log(guess);
-
-//    if (!guessList.includes(guess)) {
-//        document.getElementById("answer").innerText = "Not in word list";
-//        return;
-//    }
-
-//    //start processing guess
-//    let correct = 0;
-
-//    let letterCount = {}; //keep track of letter frequency, ex) KENNY -> {K:1, E:1, N:2, Y: 1}
-//    for (let i = 0; i < word.length; i++) {
-//        let letter = word[i];
-
-//        if (letterCount[letter]) {
-//            letterCount[letter] += 1;
-//        }
-//        else {
-//            letterCount[letter] = 1;
-//        }
-//    }
-
-//    console.log(letterCount);
-
-//    //first iteration, check all the correct ones first
-//    for (let c = 0; c < width; c++) {
-//        let currTile = document.getElementById(row.toString() + '-' + c.toString());
-//        let letter = currTile.innerText;
-
-//        //Is it in the correct position?
-//        if (word[c] == letter) {
-//            currTile.classList.add("correct");
-
-//            let keyTile = document.getElementById("Key" + letter);
-//            keyTile.classList.remove("present");
-//            keyTile.classList.add("correct");
-
-//            correct += 1;
-//            letterCount[letter] -= 1; //deduct the letter count
-//        }
-
-//        if (correct == width) {
-//            gameOver = true;
-//        }
-//    }
-
-//    console.log(letterCount);
-//    //go again and mark which ones are present but in wrong position
-//    for (let c = 0; c < width; c++) {
-//        let currTile = document.getElementById(row.toString() + '-' + c.toString());
-//        let letter = currTile.innerText;
-
-//        // skip the letter if it has been marked correct
-//        if (!currTile.classList.contains("correct")) {
-//            //Is it in the word?         //make sure we don't double count
-//            if (word.includes(letter) && letterCount[letter] > 0) {
-//                currTile.classList.add("present");
-
-//                let keyTile = document.getElementById("Key" + letter);
-//                if (!keyTile.classList.contains("correct")) {
-//                    keyTile.classList.add("present");
-//                }
-//                letterCount[letter] -= 1;
-//            } // Not in the word or (was in word but letters all used up to avoid overcount)
-//            else {
-//                currTile.classList.add("absent");
-//                let keyTile = document.getElementById("Key" + letter);
-//                keyTile.classList.add("absent")
-//            }
-//        }
-//    }
-
-//    row += 1; //start new row
-//    col = 0; //start at 0 for new row
-//}
