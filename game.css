@@ -20,7 +20,8 @@ hr {
 }
 
 #title {
-    font-size: 36px;
+    margin: 0 auto;
+    font-size: 34px;
     font-weight: bold;
     letter-spacing: 2px;
 }
