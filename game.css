@@ -26,10 +26,9 @@ hr {
 }
 
 #board {
-    width: 350px;
-    height: 300px;
+    width: 390px;
+    height: 325px;
     margin: 0 auto;
-    margin-top: 3px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -46,8 +45,8 @@ hr {
 .tile {
     /* Box */
     border: 2px solid black;
-    width: 60px;
-    height: 60px;
+    width: 65px;
+    height: 65px;
     margin: 0px;
     /* Text */
     color: black;
@@ -62,8 +61,8 @@ hr {
     /* Box */
     border: 2px solid black;
     background-color: black;
-    width: 60px;
-    height: 60px;
+    width: 65px;
+    height: 65px;
     margin: 0px;
     /* Text */
     color: black;
