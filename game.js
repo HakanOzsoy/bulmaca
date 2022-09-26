@@ -24,7 +24,7 @@ var answers = ["AAAAA", "AAAAA", "AAAAA", "AAAAA", "AAAAA"];
 
 var dikQ = ["d1", "d2", "d3", "d4", "d5"];
 var yatQ = ["y1", "y2", "y3", "y4", "y5"];
-var bTiles = ["4-3", "4-4", "4-2", "4-1"];
+var bTiles = [];
 
 localStorage.clear();
 
